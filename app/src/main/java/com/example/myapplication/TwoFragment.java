@@ -1,50 +1,36 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.Toast;
 
-public class TwoFragment extends Fragment {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class TwoFragment extends Fragment{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TwoFragment() {
-        // Required empty public constructor
-    }
-
-    public static TwoFragment newInstance(String param1, String param2) {
-        TwoFragment fragment = new TwoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_two, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_two, container, false);
+        GridView gridView = view.findViewById(R.id.gridView);
+        String[] flowerName = {"a", "b", "b", "b", "b", "b", "b", "b", "b"};
+        int[] flowerImages = {R.drawable.one, R.drawable.two, R.drawable.three, R.drawable.four, R.drawable.five, R.drawable.six, R.drawable.seven, R.drawable.eight, R.drawable.nine};
+
+        // Set up the GridAdapter
+        GridAdapter gridAdapter = new GridAdapter(getActivity(), flowerName, flowerImages);
+        gridView.setAdapter(gridAdapter);
+
+        // Set up the Item Click Listener
+        gridView.setOnItemClickListener((parent, view1, position, id) -> {
+            Toast.makeText(getActivity(), "You Click on " + flowerName[position], Toast.LENGTH_SHORT).show();
+        });
+
+        return view;
     }
 }
