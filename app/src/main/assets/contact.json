@@ -1,0 +1,12 @@
+[
+  {
+    "name": "김철수",
+    "phone_number": "010-1111-2222",
+    "image_resource": "nine"
+  },
+  {
+    "name": "박영희",
+    "phone_number": "010-2222-3333",
+    "image_resource": "one"
+  }
+]
