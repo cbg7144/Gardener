@@ -1,11 +1,6 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -13,6 +8,7 @@ import android.os.Bundle;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -33,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private void setViewPager(){
         viewPager = binding.pager;
         pagerAdapter = new PagerAdapter(this);
+
         pagerAdapter.createFragment(0);
         pagerAdapter.createFragment(1);
         pagerAdapter.createFragment(2);
@@ -40,11 +37,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTabLayout(){
-
         tabLayout = binding.tabLayout;
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText("탭" + (position + 1))
-        ).attach();
+        String[] tabTitles = {"Contact", "Gallery", "Game"};
+        int[] tabIcons = {R.drawable.ic_contact, R.drawable.ic_gallery, R.drawable.ic_game};
 
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    tab.setText(tabTitles[position]); // 텍스트 설정
+                    tab.setIcon(tabIcons[position]); // 이미지 설정
+                }
+        ).attach();
     }
 }
