@@ -8,9 +8,9 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- Camera -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
     <!-- Optional: Use-feature for camera, not required but recommended for better app filtering on Google Play -->
     <!--uses-feature android:name="android.hardware.camera.autofocus" android:required="false" /-->
 
