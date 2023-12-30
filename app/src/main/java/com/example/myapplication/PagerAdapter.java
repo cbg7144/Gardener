@@ -21,26 +21,26 @@ public class PagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-
+        Fragment fragment;
         switch (position){
             case 0:
                 fragment1 = new OneFragment();
-                addFragment(fragment1);
+                fragment = fragment1;
                 break;
             case 1:
                 fragment2 = new TwoFragment();
-                addFragment(fragment2);
+                fragment = fragment2;
                 break;
             case 2:
                 fragment3 = new ThreeFragment();
-                addFragment(fragment3);
+                fragment = fragment3;
                 break;
             default:
                 return null;
         }
 
-        return mFragmentList.get(position);
-
+        addFragment(fragment);
+        return fragment;
     }
 
     public void addFragment(Fragment fragment){
