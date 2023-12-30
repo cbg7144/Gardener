@@ -2,13 +2,11 @@ package com.example.myapplication;
 
 public class ContactItem {
     String name;
-    String number;
-    int resourceId;
+    String phone_number;
 
-    public ContactItem(String name, String number, int resourceId){
+    public ContactItem(String name, String phone_number){
         this.name = name;
-        this.number = number;
-        this.resourceId = resourceId;
+        this.phone_number = phone_number;
     }
 
     public String getName() {
@@ -19,19 +17,12 @@ public class ContactItem {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
-    public int getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(int resourceId) {
-        this.resourceId = resourceId;
-    }
 }
