@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +47,8 @@ public class TwoFragment extends Fragment{
 
     // Gallery image download
     File filePath;
+    private final int CAMERA_REQUEST_CODE = 40;
     private final int GALLERY_REQUEST_CODE = 50;
-
 
     public TwoFragment(){
     }
@@ -56,6 +60,33 @@ public class TwoFragment extends Fragment{
         GridView gridView = v.findViewById(R.id.gridView);
         adapter = new GridAdapter(v.getContext(), lstGallery);
         gridView.setAdapter(adapter);
+
+        FloatingActionButton fab = v.findViewById(R.id.goToCam);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    String dirPath = v.getContext().getExternalFilesDir(null).getPath();
+                    File dir = new File(dirPath);
+                    if(!dir.exists()){
+                        Log.d("MAKE DIR", dir.mkdirs() + "");
+                    }
+
+                    filePath = File.createTempFile("IMG", "jpg", dir);
+                    if(!filePath.exists()){
+                        filePath.createNewFile();
+                    }
+                    // com.example.taptest.provider 역할 의미???
+                    Uri photoUri = FileProvider.getUriForFile(v.getContext(), "com.example.taptest.provider", filePath);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         FloatingActionButton gal = v.findViewById(R.id.goToGallery);
         gal.setOnClickListener(new View.OnClickListener() {
@@ -71,11 +102,44 @@ public class TwoFragment extends Fragment{
 
         return v;
     }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            if(filePath != null){
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                try{
+                    InputStream in = new FileInputStream(filePath);
+                    BitmapFactory.decodeStream(in, null, options);
+                    in.close();
+                    in = null;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                final int width = options.outWidth;
+                final int height = options.outHeight;
+
+                BitmapFactory.Options imgOptions = new BitmapFactory.Options();
+                imgOptions.inSampleSize = 4;
+                Bitmap bitmap = BitmapFactory.decodeFile(filePath.getAbsolutePath(), imgOptions);
+
+                ExifInterface exif = null;
+                try{
+                    exif = new ExifInterface(filePath);
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                Bitmap bmRotated = rotateBitmap(bitmap, orientation);
+                Gallery gallery = new Gallery(bmRotated);
+                lstGallery.add(gallery);
+                adapter.notifyDataSetChanged();
+            }
+        }else if(requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             try{
                 if(data.getClipData() != null){
                     for(int index = 0; index < data.getClipData().getItemCount(); index++){
