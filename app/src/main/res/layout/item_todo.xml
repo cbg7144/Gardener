@@ -2,19 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/todoItem"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="17sp"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/deleteBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:drawableLeft="@drawable/ic_trash"
+        android:paddingLeft="2dp"
         android:text="Delete"
+        android:textColor="@color/white"
+        android:background="@drawable/delete_btn"
         />
 
 </LinearLayout>
