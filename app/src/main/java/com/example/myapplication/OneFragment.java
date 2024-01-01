@@ -60,11 +60,12 @@ public class OneFragment extends Fragment {
             @Override // 텍스트가 변경될 때마다 호출
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchList.clear();
-                String searchName = search.getText().toString();
+                String searchName = search.getText().toString().toLowerCase();
 
                 if (searchName.length() > 0) {
                     for (int i = 0; i < contactList.size(); i++) {
-                        if (contactList.get(i).getName().contains(searchName)) {
+                        String contactName = contactList.get(i).getName().toLowerCase();
+                        if (contactName.contains(searchName)) {
                             searchList.add(contactList.get(i));
                         }
                     }
