@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 리턴이 false일 경우 다시 권한 요청
         if (!permission.permissionResult(requestCode, permissions, grantResults)){
-            permission.requestPermission();
+            // permission.requestPermission();
         }
     }
 
