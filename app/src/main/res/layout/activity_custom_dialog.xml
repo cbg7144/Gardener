@@ -10,7 +10,7 @@
 
     <EditText
         android:id="@+id/addName"
-        android:text="Name : "
+        android:hint="Enter the name"
         android:textStyle="bold"
         android:textColor="@color/dark_green"
         android:layout_width="300dp"
@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/addNumber"
-        android:text="Number : "
+        android:hint="Enter the phone number"
         android:textStyle="bold"
         android:textColor="@color/dark_green"
         android:layout_width="300dp"
