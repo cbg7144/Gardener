@@ -10,13 +10,22 @@
 
     <EditText
         android:id="@+id/addName"
-        android:hint="Enter the name of the person"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"/>
+        android:text="Name : "
+        android:textStyle="bold"
+        android:textColor="@color/dark_green"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/search_box"
+        android:layout_marginBottom="10dp"/>
 
     <EditText
         android:id="@+id/addNumber"
-        android:hint="Enter the number of the person"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"/>
+        android:text="Number : "
+        android:textStyle="bold"
+        android:textColor="@color/dark_green"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/search_box"/>
 </LinearLayout>

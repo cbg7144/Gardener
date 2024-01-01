@@ -56,15 +56,24 @@ public class OneFragment extends Fragment {
             }
         });
 
+        adapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                ContactItem clickedItem = contactList.get(position);
+                showEditContactDialog(clickedItem);
+            }
+        });
+
         search.addTextChangedListener(new TextWatcher() {
             @Override // 텍스트가 변경될 때마다 호출
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchList.clear();
-                String searchName = search.getText().toString();
+                String searchName = search.getText().toString().toLowerCase();
 
                 if (searchName.length() > 0) {
                     for (int i = 0; i < contactList.size(); i++) {
-                        if (contactList.get(i).getName().contains(searchName)) {
+                        String contactName = contactList.get(i).getName().toLowerCase();
+                        if (contactName.contains(searchName)) {
                             searchList.add(contactList.get(i));
                         }
                     }
@@ -219,6 +228,40 @@ public class OneFragment extends Fragment {
                         dialogInterface.dismiss();
                     }
                 })
+                .show();
+    }
+
+    private void showEditContactDialog(ContactItem clickedItem) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.activity_custom_dialog, null);
+        EditText editTextName = dialogView.findViewById(R.id.addName);
+        EditText editTextPhoneNumber = dialogView.findViewById(R.id.addNumber);
+
+        editTextName.setText(clickedItem.getName());
+        editTextPhoneNumber.setText(clickedItem.getPhone_number());
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Edit Contact")
+                .setView(dialogView)
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String name = editTextName.getText().toString();
+                        String phoneNumber = editTextPhoneNumber.getText().toString();
+
+                        clickedItem.setName(name);
+                        clickedItem.setPhone_number(phoneNumber);
+
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        contactList.remove(clickedItem);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 }
