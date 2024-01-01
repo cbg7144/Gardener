@@ -1,9 +1,16 @@
 package com.example.myapplication;
 
+import static androidx.core.splashscreen.SplashScreen.installSplashScreen;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.viewpager2.widget.ViewPager2;
 
+
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
@@ -18,9 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SplashScreen splashScreen = installSplashScreen(this);
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // 초수 2000 설정, 변동 가능
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            splashScreen.setKeepOnScreenCondition(() -> false);
+        }, 800);
+
 
         setViewPager();
         setTabLayout();
