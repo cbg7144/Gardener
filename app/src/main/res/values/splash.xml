@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.AnimatedSplash.MySplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/light_green</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_testogo</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyApplication</item>
+<!--        강의랑 다른 부분 1-->
+    </style>
+
+</resources>
