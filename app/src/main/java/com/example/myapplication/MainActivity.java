@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setTabLayout(){
         tabLayout = binding.tabLayout;
-        String[] tabTitles = {"Contact", "Gallery", "Game"};
-        int[] tabIcons = {R.drawable.ic_contact, R.drawable.ic_gallery, R.drawable.ic_game};
+        String[] tabTitles = {"Contact", "Gallery", "Todo"};
+        int[] tabIcons = {R.drawable.ic_contact, R.drawable.ic_gallery, R.drawable.ic_check};
 
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
