@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // 초수 2000 설정, 변동 가능
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             splashScreen.setKeepOnScreenCondition(() -> false);
-        }, 800);
+        }, 1000);
 
 
         setViewPager();
