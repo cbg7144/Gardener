@@ -9,44 +9,20 @@ import java.util.ArrayList;
 
 public class PagerAdapter extends FragmentStateAdapter {
     private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
-    private OneFragment fragment1;
-    private TwoFragment fragment2;
-    private ThreeFragment fragment3;
 
     public PagerAdapter(AppCompatActivity activity) {
-
         super(activity);
-
+        // 프래그먼트를 미리 생성하여 리스트에 추가
+        mFragmentList.add(new OneFragment());
+        mFragmentList.add(new TwoFragment());
+        mFragmentList.add(new ThreeFragment());
     }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Fragment fragment;
-        switch (position){
-            case 0:
-                fragment1 = new OneFragment();
-                fragment = fragment1;
-                break;
-            case 1:
-                fragment2 = new TwoFragment();
-                fragment = fragment2;
-                break;
-            case 2:
-                fragment3 = new ThreeFragment();
-                fragment = fragment3;
-                break;
-            default:
-                return null;
-        }
-
-        addFragment(fragment);
-        return fragment;
-    }
-
-    public void addFragment(Fragment fragment){
-
-        mFragmentList.add(fragment);
-
+        // 해당 위치의 프래그먼트를 반환
+        return mFragmentList.get(position);
     }
 
     @Override
