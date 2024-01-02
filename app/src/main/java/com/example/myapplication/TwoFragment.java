@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -50,6 +51,30 @@ public class TwoFragment extends Fragment{
     private final int CAMERA_REQUEST_CODE = 40;
     private final int GALLERY_REQUEST_CODE = 50;
 
+    // Permission
+    private PermissionSupport permission;
+
+    private void permissionCheck(){
+        if(Build.VERSION.SDK_INT >= 23){
+            // Use getActivity() instead of this
+            permission = new PermissionSupport(getActivity(), getActivity());
+
+            if(!permission.checkPermission()){
+                permission.requestPermission();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Use the permission object to handle the result
+        if (!permission.permissionResult(requestCode, permissions, grantResults)){
+            // Handle the case where permission is not granted
+        }
+    }
+
     public TwoFragment(){
     }
 
@@ -61,10 +86,12 @@ public class TwoFragment extends Fragment{
         adapter = new GridAdapter(v.getContext(), lstGallery);
         gridView.setAdapter(adapter);
 
+        // 카메라 버튼
         FloatingActionButton fab = v.findViewById(R.id.goToCam);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                permissionCheck();
                 try{
                     String dirPath = v.getContext().getExternalFilesDir(null).getPath();
                     File dir = new File(dirPath);
@@ -92,6 +119,7 @@ public class TwoFragment extends Fragment{
         gal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permissionCheck();
                 Intent newIntent = new Intent();
                 newIntent.setType("image/*");
                 newIntent.setAction(Intent.ACTION_GET_CONTENT);
