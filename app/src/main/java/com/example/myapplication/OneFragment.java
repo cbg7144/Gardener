@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,6 +43,8 @@ public class OneFragment extends Fragment {
     public ContactAdapter adapter;
     public ArrayList<ContactItem> contactList = new ArrayList<>();
     public ArrayList<ContactItem> searchList = new ArrayList<>(); // 검색 시 같은 이름이 있는 아이템이 담길 리스트
+
+    private static final String CONTACT_PREFS = "ContactPrefs";
 
     @Override // 뷰 객체가 반환된 직후에 호출, 뷰가 완전히 생성되었음을 보장
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -103,32 +107,7 @@ public class OneFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Gson gson = new Gson();
-
-        try {
-            InputStream inputStream = getActivity().getAssets().open("contact.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-
-            inputStream.read(buffer);
-            inputStream.close();
-
-            String json = new String(buffer, "UTF-8");
-
-            JsonElement jsonElement = JsonParser.parseString(json);
-            if (jsonElement.isJsonObject()) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                JsonArray personArray = jsonObject.getAsJsonArray("person");
-
-                Type listType = new TypeToken<ArrayList<ContactItem>>() {}.getType();
-                ArrayList<ContactItem> contactItems = gson.fromJson(personArray, listType);
-
-                contactList.addAll(contactItems);
-            }
-        } catch (IOException | JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-
+        loadContactsFromSharedPreferences();
         adapter.setContactList(contactList);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -140,9 +119,11 @@ public class OneFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                contactList.remove(position);
+                ContactItem contactItem = contactList.get(position);
                 adapter.notifyItemRemoved(position);
+                removeFromSharedPreferences(contactItem);
             }
+
 
             @Override
             public void onChildDraw(
@@ -189,11 +170,40 @@ public class OneFragment extends Fragment {
 
 
         };
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveContactsToSharedPreferences();
+    }
+
+    private void saveContactsToSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(CONTACT_PREFS, requireContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String contactsjson = gson.toJson(contactList);
+
+        editor.putString("contacts", contactsjson);
+        editor.apply();
+    }
+
+    private void loadContactsFromSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(CONTACT_PREFS, Context.MODE_PRIVATE);
+        String contactsJson = sharedPreferences.getString("contacts", "");
+
+        if (!contactsJson.isEmpty()) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<ContactItem>>() {}.getType();
+            contactList = gson.fromJson(contactsJson, listType);
+            adapter.setContactList(contactList);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private int convertDpToPx(int dp){
@@ -219,7 +229,7 @@ public class OneFragment extends Fragment {
                         ContactItem contactItem = new ContactItem(name, phoneNumber);
                         contactList.add(contactItem);
 
-                        adapter.notifyDataSetChanged();
+                        saveContactsAndUpdateSharedPreferences();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -259,9 +269,41 @@ public class OneFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         contactList.remove(clickedItem);
                         adapter.notifyDataSetChanged();
+                        removeFromSharedPreferences(clickedItem);
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
     }
+    private void saveContactsAndUpdateSharedPreferences() {
+        saveContactsToSharedPreferences();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void removeFromSharedPreferences(ContactItem removedItem) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(CONTACT_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String contactsJson = sharedPreferences.getString("contacts", "");
+        Type listType = new TypeToken<ArrayList<ContactItem>>() {}.getType();
+
+        if (!contactsJson.isEmpty()) {
+            ArrayList<ContactItem> contactListFromPrefs = gson.fromJson(contactsJson, listType);
+
+            // 삭제된 아이템을 찾아 제거
+            boolean removed = contactListFromPrefs.removeIf(item -> item.getName().equals(removedItem.getName()) && item.getPhone_number().equals(removedItem.getPhone_number()));
+
+            if (removed) {
+                // 수정된 연락처 목록을 SharedPreferences에 저장
+                String updatedContactsJson = gson.toJson(contactListFromPrefs);
+                editor.putString("contacts", updatedContactsJson);
+                editor.apply();
+
+                // 저장된 목록을 새로 불러와서 갱신
+                loadContactsFromSharedPreferences();
+            }
+        }
+    }
+
 }
