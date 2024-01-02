@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 public class TodoItem {
     private String todoName;
-    private boolean isChecked;
+    boolean isChecked;
     public TodoItem(String todoName){
         this.todoName = todoName;
         this.isChecked = false;

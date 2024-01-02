@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -22,11 +24,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -34,7 +39,7 @@ public class ThreeFragment extends Fragment {
     public RecyclerView recyclerView;
     public TodoAdapter adapter;
     private ArrayList<TodoItem> todoList = new ArrayList<>();
-
+    private static final String TODO_PREFS = "todoPrefs";
 
     // open weather 설정
     EditText etCity;
@@ -50,10 +55,13 @@ public class ThreeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_three, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        adapter = new TodoAdapter(todoList);
+
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new TodoAdapter(todoList);
-        recyclerView.setAdapter(adapter);
+        adapter.setTodoList(todoList);
+        loadTodoFromSharedPreferences();
 
         EditText addTodo = view.findViewById(R.id.addTodo);
         Button insertButton = view.findViewById(R.id.insertBtn);
@@ -78,85 +86,119 @@ public class ThreeFragment extends Fragment {
                 TodoItem newTodo = new TodoItem(addTodo.getText().toString());
                 todoList.add(newTodo);
                 adapter.notifyDataSetChanged();
+                saveTodoAndUpdateSharedPreferences();
                 addTodo.setText(null);
             }
         });
         return view;
     }
 
-    public void getWeatherDetails(View view){
+    public void getWeatherDetails(View view) {
         String tempUrl = "";
         String city = etCity.getText().toString().trim();
 //        String country = etCountry.getText().toString().trim();
-        if(city.equals("")){
+        if (city.equals("")) {
             treatMethod.setText("City field can not be empty");
         } else {
             tempUrl = url + "?q=" + city + "," + "&appid=" + appid;
         }
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response)
-                {
-                   // Log.d("response", response);
-                    String output = "";
-                    String weatherIcon = "";
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-                        JSONArray jsonArrayWeather = jsonResponse.getJSONArray("weather");
-                        JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
-                        String main_weather = jsonObjectWeather.getString("main"); ///////////////////
-                        JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
-                        double temp = jsonObjectMain.getDouble("temp") - 273.15;
-                        double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
-                        int humidity = jsonObjectMain.getInt("humidity");
-                        float pressure = jsonObjectMain.getInt("pressure");
-                        JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
-                        String wind = jsonObjectWind.getString("speed");
-                        JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
-                        String clouds = jsonObjectClouds.getString("all");
-                        JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
-                        String countryName = jsonObjectSys.getString("country");
-                        String cityName = jsonResponse.getString("name");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Log.d("response", response);
+                String output = "";
+                String weatherIcon = "";
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    JSONArray jsonArrayWeather = jsonResponse.getJSONArray("weather");
+                    JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
+                    String main_weather = jsonObjectWeather.getString("main"); ///////////////////
+                    JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
+                    double temp = jsonObjectMain.getDouble("temp") - 273.15;
+                    double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
+                    int humidity = jsonObjectMain.getInt("humidity");
+                    float pressure = jsonObjectMain.getInt("pressure");
+                    JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
+                    String wind = jsonObjectWind.getString("speed");
+                    JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
+                    String clouds = jsonObjectClouds.getString("all");
+                    JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
+                    String countryName = jsonObjectSys.getString("country");
+                    String cityName = jsonResponse.getString("name");
 
-                        // 글자 색깔 설정
-                        treatMethod.setTextColor(Color.rgb(68,134,199));
+                    // 글자 색깔 설정
+                    treatMethod.setTextColor(Color.rgb(68, 134, 199));
 
 
-                        if( main_weather.equals("Clear")){
-                            output = "Provide water and sunlight but avoid overexposure.";
-                            weatherIcon = "☀️";
-                        } else if(main_weather.equals("Clouds") ||main_weather.equals("Atmosphere")){
-                            output = "Use artificial light and reduce watering.";
-                            weatherIcon = "☁️";
-                        } else if(main_weather.equals("Drizzle") || main_weather.equals("Rain")){
-                            output = "Ensure ventilation to prevent root rot.";
-                            weatherIcon = "\uD83C\uDF27️️️";
-                        } else if(main_weather.equals("Snow")){
-                            output = "Remove accumulated snow to prevent damage.";
-                            weatherIcon = "\uD83C\uDF28️";
-                        } else if(main_weather.equals("Thunderstrom")){
-                            output = "Bring plants indoors for protection.";
-                            weatherIcon = "⛈️";
-                        } else{
-                            output = "Well Well Well Well";
-                            weatherIcon = "\uD83D\uDE04";
-                        }
-
-                        currWeather.setText("Today weather is " + main_weather + weatherIcon );
-                        treatMethod.setText(output);
-
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                    if (main_weather.equals("Clear")) {
+                        output = "Provide water and sunlight but avoid overexposure.";
+                        weatherIcon = "☀️";
+                    } else if (main_weather.equals("Clouds") || main_weather.equals("Atmosphere")) {
+                        output = "Use artificial light and reduce watering.";
+                        weatherIcon = "☁️";
+                    } else if (main_weather.equals("Drizzle") || main_weather.equals("Rain")) {
+                        output = "Ensure ventilation to prevent root rot.";
+                        weatherIcon = "\uD83C\uDF27️️️";
+                    } else if (main_weather.equals("Snow")) {
+                        output = "Remove accumulated snow to prevent damage.";
+                        weatherIcon = "\uD83C\uDF28️";
+                    } else if (main_weather.equals("Thunderstrom")) {
+                        output = "Bring plants indoors for protection.";
+                        weatherIcon = "⛈️";
+                    } else {
+                        output = "Well Well Well Well";
+                        weatherIcon = "\uD83D\uDE04";
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(requireActivity().getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-            requestQueue.add(stringRequest);
-        }
 
+                    currWeather.setText("Today weather is " + main_weather + weatherIcon);
+                    treatMethod.setText(output);
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(requireActivity().getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveTodoToSharedPreferences();
+    }
+
+    private void saveTodoToSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(TODO_PREFS, requireContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String todojson = gson.toJson(todoList);
+
+        editor.putString("todo", todojson);
+        editor.apply();
+    }
+
+    private void loadTodoFromSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(TODO_PREFS, Context.MODE_PRIVATE);
+        String todoJson = sharedPreferences.getString("todo", "");
+
+        if (!todoJson.isEmpty()) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<TodoItem>>() {}.getType();
+            todoList = gson.fromJson(todoJson, listType);
+            adapter.setTodoList(todoList);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void saveTodoAndUpdateSharedPreferences() {
+        saveTodoToSharedPreferences();
+        adapter.notifyDataSetChanged();
+    }
 }
