@@ -18,6 +18,11 @@ import java.util.ArrayList;
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     private ArrayList<TodoItem> mData = null;
 
+    public void setTodoList(ArrayList<TodoItem> todoList) {
+        this.mData = todoList;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView todoName;
         protected Button deleteButton;
