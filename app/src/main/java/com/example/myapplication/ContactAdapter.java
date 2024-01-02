@@ -1,5 +1,11 @@
 package com.example.myapplication;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -58,11 +66,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView number;
+        Button btnCall, btnMessage;
+        private static final int PERMISSIONS_CALL_PHONE = 1001;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             number = itemView.findViewById(R.id.number);
+            btnCall = itemView.findViewById(R.id.btn_call);
+            btnMessage = itemView.findViewById(R.id.btn_message);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,6 +82,37 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         mListener.onItemClick(v, pos);
+                    }
+                }
+            });
+
+            btnCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        String phoneNumber = contactList.get(pos).getPhone_number();
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:" + phoneNumber));
+
+                        if (ContextCompat.checkSelfPermission(itemView.getContext(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) itemView.getContext(), new String[]{android.Manifest.permission.CALL_PHONE}, PERMISSIONS_CALL_PHONE);
+                        } else {
+                            itemView.getContext().startActivity(intent);
+                        }
+                    }
+                }
+            });
+
+            btnMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        String phoneNumber = contactList.get(pos).getPhone_number();
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("smsto:" + phoneNumber));
+                        itemView.getContext().startActivity(intent);
                     }
                 }
             });
