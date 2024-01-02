@@ -2,7 +2,7 @@
 > ### Contributor: Seohee Yoon, Baekgyun Cho
 > 2023.12.28 ~ 2024.01.03 <br />
 *for 2023 Winter Madcamp Week01 Project* <br/>
-<img src="https://github.com/cbg7144/Gardener/assets/102652293/976962ef-f98d-4bb3-a20f-4de4cda41d19" width="300px" height="300px"/>
+<img src="https://github.com/cbg7144/Gardener/assets/102652293/b339a5c8-4d0b-40c4-8284-38bc668831e2" width="300px" height="300px"/>
 
 ## 📂 About Projects
 ### 1️⃣ Splash
