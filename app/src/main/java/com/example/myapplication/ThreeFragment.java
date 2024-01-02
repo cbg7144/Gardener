@@ -55,7 +55,7 @@ public class ThreeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_three, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new TodoAdapter(getContext(), todoList);
+        adapter = new TodoAdapter(todoList);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
