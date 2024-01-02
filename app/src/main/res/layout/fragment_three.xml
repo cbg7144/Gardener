@@ -38,43 +38,55 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Today weather is so nice☀️"
-                        android:textSize="18sp"
+                        android:text="What a lovely day! 💝"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:id="@+id/currWeather"
                         android:layout_marginBottom="10dp"/>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="How about watering plants?"
-                        android:textSize="18sp"
+                        android:text="Please treat plants with care"
+                        android:id="@+id/treatMethod"
+                        android:textSize="20sp"
                         />
 
-                    <EditText
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/etCity"
-                        android:layout_marginBottom="10dp"
-                        android:ems="10"
-                        android:hint= "Enter City Name"
-                        android:inputType="textPersonName"/>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="0dp">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight='0.33'
+                            android:text=" I'm in"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:layout_weight="1.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etCity"
+                            android:layout_marginBottom="5dp"
+                            android:ems="10"
+                            android:hint="Enter City Name"
+                            android:textSize="20sp"
+                            android:inputType="textPersonName"/>
+                    </LinearLayout>
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/btnGet"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@android:color/white"
-                        android:text="GET"
+                        android:text="Enter"
+                        android:textSize="20sp"
                         android:onClick="getWeatherDetails"
                         />
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvResult" />
-                    </ScrollView>
-
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -89,11 +101,13 @@
                     android:id="@+id/addTodo"
                     android:layout_width="250sp"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:hint="To do"/>
                 <Button
                     android:id="@+id/insertBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="Add"/>
             </LinearLayout>
 

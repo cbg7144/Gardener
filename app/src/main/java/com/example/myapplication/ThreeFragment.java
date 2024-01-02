@@ -37,8 +37,8 @@ public class ThreeFragment extends Fragment {
 
 
     // open weather 설정
-    EditText etCity, etCountry;
-    TextView tvResult;
+    EditText etCity;
+    TextView currWeather, treatMethod;
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String appid = "c52827cc3e964279095d372436481fe2";
     DecimalFormat df = new DecimalFormat("#.##");
@@ -60,7 +60,8 @@ public class ThreeFragment extends Fragment {
 
         // 기상 맞는지 확인 요망 ///
         etCity = view.findViewById(R.id.etCity);
-        tvResult = view.findViewById(R.id.tvResult);
+        currWeather = view.findViewById(R.id.currWeather);
+        treatMethod = view.findViewById(R.id.treatMethod);
         Button getButton = view.findViewById(R.id.btnGet);
 
         // weather 버튼
@@ -88,7 +89,7 @@ public class ThreeFragment extends Fragment {
         String city = etCity.getText().toString().trim();
 //        String country = etCountry.getText().toString().trim();
         if(city.equals("")){
-            tvResult.setText("City field can not be empty");
+            treatMethod.setText("City field can not be empty");
         } else {
             tempUrl = url + "?q=" + city + "," + "&appid=" + appid;
         }
@@ -98,6 +99,7 @@ public class ThreeFragment extends Fragment {
                 {
                    // Log.d("response", response);
                     String output = "";
+                    String weatherIcon = "";
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONArray jsonArrayWeather = jsonResponse.getJSONArray("weather");
@@ -115,33 +117,33 @@ public class ThreeFragment extends Fragment {
                         JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
                         String countryName = jsonObjectSys.getString("country");
                         String cityName = jsonResponse.getString("name");
-                        tvResult.setTextColor(Color.rgb(68,134,199));
+
+                        // 글자 색깔 설정
+                        treatMethod.setTextColor(Color.rgb(68,134,199));
 
 
-//                        output += "Current weather of " + cityName + " (" + countryName + ")"
-//                                + "\n Temp: " + df.format(temp) + " °C"
-//                                + "\n Feels Like: " + df.format(feelsLike) + " °C"
-//                                + "\n Humidity: " + humidity + "%"
-//                                + "\n Description: " + main_weather
-//                                + "\n Wind Speed: " + wind + "m/s"
-//                                + "\n Cloudiness: " + clouds + "%"
-//                                + "\n Pressure: " + pressure + "hPa";
-
-                        if( main_weather == "Clear"){
-                            output = "빛을 받으시게";
+                        if( main_weather.equals("Clear")){
+                            output = "Provide water and sunlight but avoid overexposure.";
+                            weatherIcon = "☀️";
                         } else if(main_weather.equals("Clouds") ||main_weather.equals("Atmosphere")){
-                            output = "빛이 부족";
+                            output = "Use artificial light and reduce watering.";
+                            weatherIcon = "☁️";
                         } else if(main_weather.equals("Drizzle") || main_weather.equals("Rain")){
-                            output = "물을 받아서 행복";
+                            output = "Ensure ventilation to prevent root rot.";
+                            weatherIcon = "\uD83C\uDF27️️️";
                         } else if(main_weather.equals("Snow")){
-                            output = "눈 쌓이면 제거 요망";
+                            output = "Remove accumulated snow to prevent damage.";
+                            weatherIcon = "\uD83C\uDF28️";
                         } else if(main_weather.equals("Thunderstrom")){
-                            output = "안으로 집어넣으세요";
+                            output = "Bring plants indoors for protection.";
+                            weatherIcon = "⛈️";
                         } else{
-                            output = "잘 가꾸어 주세요";
+                            output = "Well Well Well Well";
+                            weatherIcon = "\uD83D\uDE04";
                         }
 
-                        tvResult.setText(output);
+                        currWeather.setText("Today weather is " + main_weather + weatherIcon );
+                        treatMethod.setText(output);
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
