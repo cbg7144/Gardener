@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     // 권한 설정
     private PermissionSupport permission;
 
+    private boolean isReady = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -38,9 +40,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //
+        splashScreen.setKeepOnScreenCondition(() -> !isReady);
+
         // 초수 2000 설정, 변동 가능
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             splashScreen.setKeepOnScreenCondition(() -> false);
+            isReady = true;
         }, 1000);
 
 
