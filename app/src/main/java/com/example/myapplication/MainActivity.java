@@ -50,32 +50,31 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
 
-        // 권한 체크 (순위 맞는지 다시 체크)
-        permissionCheck();
+//        // 권한 체크 (순위 맞는지 다시 체크)
+//        permissionCheck();
 
         setViewPager();
         setTabLayout();
     }
 
-    private void permissionCheck(){
-        if(Build.VERSION.SDK_INT >= 23){
-
-            permission = new PermissionSupport(this, this);
-
-            if(!permission.checkPermission()){
-                permission.requestPermission();
-            }
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // 리턴이 false일 경우 다시 권한 요청
-        if (!permission.permissionResult(requestCode, permissions, grantResults)){
-            // permission.requestPermission();
-        }
-    }
+//    private void permissionCheck(){
+//        if(Build.VERSION.SDK_INT >= 23){
+//
+//            permission = new PermissionSupport(this, this);
+//
+//            if(!permission.checkPermission()){
+//                permission.requestPermission();
+//            }
+//        }
+//    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        // 리턴이 false일 경우 다시 권한 요청
+//        if (!permission.permissionResult(requestCode, permissions, grantResults)){
+//        }
+//    }
 
     private void setViewPager(){
         viewPager = binding.pager;
