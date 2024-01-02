@@ -203,15 +203,26 @@ public class TwoFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstGallery = new ArrayList<>();
-        lstGallery.add(new Gallery(R.drawable.one));
-        lstGallery.add(new Gallery(R.drawable.two));
-        lstGallery.add(new Gallery(R.drawable.three));
-        lstGallery.add(new Gallery(R.drawable.four));
-        lstGallery.add(new Gallery(R.drawable.five));
-        lstGallery.add(new Gallery(R.drawable.six));
-        lstGallery.add(new Gallery(R.drawable.seven));
-        lstGallery.add(new Gallery(R.drawable.eight));
-        lstGallery.add(new Gallery(R.drawable.nine));
+        lstGallery.add(new Gallery(R.drawable.za));
+        lstGallery.add(new Gallery(R.drawable.zb));
+        lstGallery.add(new Gallery(R.drawable.zc));
+        lstGallery.add(new Gallery(R.drawable.zd));
+        lstGallery.add(new Gallery(R.drawable.ze));
+        lstGallery.add(new Gallery(R.drawable.zf));
+        lstGallery.add(new Gallery(R.drawable.zg));
+        lstGallery.add(new Gallery(R.drawable.zh));
+        lstGallery.add(new Gallery(R.drawable.zi));
+        lstGallery.add(new Gallery(R.drawable.zj));
+        lstGallery.add(new Gallery(R.drawable.zk));
+        lstGallery.add(new Gallery(R.drawable.zl));
+        lstGallery.add(new Gallery(R.drawable.zm));
+        lstGallery.add(new Gallery(R.drawable.zn));
+        lstGallery.add(new Gallery(R.drawable.zo));
+        lstGallery.add(new Gallery(R.drawable.zp));
+        lstGallery.add(new Gallery(R.drawable.zq));
+        lstGallery.add(new Gallery(R.drawable.zr));
+        lstGallery.add(new Gallery(R.drawable.zs));
+        lstGallery.add(new Gallery(R.drawable.zt));
     }
 
 

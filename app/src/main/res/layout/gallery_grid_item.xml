@@ -6,18 +6,13 @@
     android:padding="5dp"
     android:gravity="center">
 
+<!--    android:weightSum=""-->
+
     <ImageView
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:scaleType="centerCrop"
         android:id="@+id/grid_image"/>
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/item_name"-->
-<!--        android:text="Rose"-->
-<!--        android:textSize="26sp"-->
-<!--        android:layout_marginTop="6dp"/>-->
+<!--    android:layout_weight='1'-->
 
 </LinearLayout>
