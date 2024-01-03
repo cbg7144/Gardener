@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ThreeFragment">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".ThreeFragment">
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        >
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="16dp"
-            >
+            android:layout_height="wrap_content"
+            android:text="To do List 🌿"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="To do List 🌿"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:background="@drawable/search_box">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF"
-                android:background="@drawable/search_box">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="What a lovely day! ☺️"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:id="@+id/currWeather"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Please treat plants with care"
+                    android:id="@+id/treatMethod"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:gravity="center"
+                    android:padding="0dp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="What a lovely day! ☺️"
-                        android:gravity="center"
-                        android:textSize="20sp"
-                        android:id="@+id/currWeather"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_weight='0.5'
+                        android:text=" I'm in"
+                        android:textSize="20sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <EditText
+                        android:layout_weight="1.2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Please treat plants with care"
-                        android:id="@+id/treatMethod"
+                        android:id="@+id/etCity"
+                        android:layout_marginBottom="5dp"
+                        android:ems="10"
+                        android:hint="Enter City"
                         android:textSize="20sp"
-                        />
+                        android:inputType="textPersonName"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        android:padding="0dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight='0.33'
-                            android:text=" I'm in"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:layout_weight="1.5"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etCity"
-                            android:layout_marginBottom="5dp"
-                            android:ems="10"
-                            android:hint="Enter City Name"
-                            android:textSize="20sp"
-                            android:inputType="textPersonName"/>
-                    </LinearLayout>
                     <Button
-                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/btnGet"
                         android:layout_marginBottom="5dp"
@@ -87,69 +90,72 @@
                         android:textSize="20sp"
                         android:onClick="getWeatherDetails"
                         />
-
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="This week Weather 🌤"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical"/>
-                <android.widget.Button
-                    android:id="@+id/weather_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="see 👁️"
-                    android:textSize="15sp"
-                    android:background="@drawable/search_box"
-                    android:layout_gravity="center_vertical"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/weatherRecyclerView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/addTodo"
+                android:layout_width="250sp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:gravity="center">
-                <EditText
-                    android:id="@+id/addTodo"
-                    android:layout_width="250sp"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:hint="To do"/>
-                <android.widget.Button
-                    android:id="@+id/insertBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:textSize="15sp"
-                    android:text="Add"
-                    android:background="@drawable/search_box"/>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"/>
+                android:textSize="20sp"
+                android:hint="To do"/>
+            <android.widget.Button
+                android:id="@+id/insertBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:textSize="15sp"
+                android:text="Add"
+                android:background="@drawable/search_box"/>
         </LinearLayout>
-    </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This week Weather 🌤"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"/>
+            <android.widget.Button
+                android:id="@+id/weather_click"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:text="see 👁️"
+                android:textSize="15sp"
+                android:background="@drawable/search_box"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/weatherRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>
