@@ -8,7 +8,7 @@
 ### 1️⃣ Splash
 
 <p align="center">
- <img scr="https://github.com/cbg7144/Gardener/assets/128574611/82a4ba7c-3f0f-4f4b-9423-b98a5b9936f2">
+ <img scr="![splash](https://github.com/cbg7144/Gardener/assets/128574611/aa3aef31-9ca2-411b-b1ad-fe835658a861)">
 </p>
  - Splash screen using avd file. You can see pop out animated logo when you launch the app.
    
