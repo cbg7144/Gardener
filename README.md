@@ -7,7 +7,8 @@
 <img alt="Java" src="https://img.shields.io/badge/Java-007396.svg?&style=for-the badge&logo=Java&logoColor=white"/> 
 <img alt="Android" src="https://img.shields.io/badge/Android-3DDC84.svg?&style=for-the badge&logo=Android&logoColor=white"/> 
 </p>
-<img src="https://github.com/cbg7144/Gardener/assets/102652293/b339a5c8-4d0b-40c4-8284-38bc668831e2" width="300px" height="300px"/>
+<img src="https://github.com/cbg7144/Gardener/assets/102652293/b339a5c8-4d0b-40c4-8284-38bc668831e2" width="300px" height="300px"/><br />
+❗️NOTE: To use this application, DOWNLOAD Gardener.apk file and install it. It only works on **ANDROID OS**.
 
 ## 📂 About Projects
 <img src="https://github.com/cbg7144/Gardener/assets/128574611/b3c73bc5-00f3-40f6-8afe-2776642a9fdd" width="768px" height="432px"/> <br />
