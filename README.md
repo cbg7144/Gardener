@@ -16,17 +16,17 @@
 In a first project of KAIST MadCamp, we developed an Android app with three tabs. The first tab uses JSON format to build random contact data. The second tab builds my own gallery. The third tab is a free topic, and we organized a screen to create my own to-do list related to plants according to the concept.
 
 ### 1️⃣ Splash
-<img src="https://github.com/cbg7144/Gardener/assets/128574611/face9079-f44d-488a-b0fd-2661c041f2c3" width="150px" height="300px"/> <br />
+<img src="https://github.com/cbg7144/Gardener/assets/128574611/face9079-f44d-488a-b0fd-2661c041f2c3" width="300px" height="600px"/> <br />
 - Splash screen using avd file. You can see pop out animated logo when you launch the app.
    
 ### 2️⃣ Tab1 : Contact
-<img src="https://github.com/cbg7144/Gardener/assets/128574611/e4a9bafa-dff8-4880-aa2b-2249b7d2c617" width="150px" height="300px"/> <br />
+<img src="https://github.com/cbg7144/Gardener/assets/128574611/e4a9bafa-dff8-4880-aa2b-2249b7d2c617" width="300px" height="600px"/> <br />
 - You can add new contact by using bottom floating button and add new contact by typing string of name and phone number. Modified contacts are saved after reboot using shared preferences. You can search contact by name and phone number.
 - You can call directly from contact and send a message, by touching call and message image located in right side of each ite getting call permission, ACTION_CALL
 - You can remove contact by sliding each contact left
 
 ### 3️⃣ Tab2 : Gallery
-<img src="https://github.com/cbg7144/Gardener/assets/128574611/b077421a-89f0-49de-9a6d-d3933623a077" width="150px" height="300px"/> <br />
+<img src="https://github.com/cbg7144/Gardener/assets/128574611/b077421a-89f0-49de-9a6d-d3933623a077" width="300px" height="600px"/> <br />
  - Gallery tap initially contains 20 images of flowers and gardens. Grid view with 3 coulmns is implemented to display images.
    When you click an image, it opens up a horizontally oriented recycler view that displays the raw image files.
    You can easliy navigate to oher images by scrolling, and the scrolling appears to be continuous in both left and right directions. <br/>
@@ -41,7 +41,7 @@ In a first project of KAIST MadCamp, we developed an Android app with three tabs
   - If you click on an image for a long time, you can choose whether to erase the picture.
 
 ### 4️⃣ Tab3 : Todo & Check weather
-<img src="https://github.com/cbg7144/Gardener/assets/128574611/01f89317-e7c3-4269-b559-e522c08c0e93" width="150px" height="300px"/> <br />
+<img src="https://github.com/cbg7144/Gardener/assets/128574611/01f89317-e7c3-4269-b559-e522c08c0e93" width="300px" height="600px"/> <br />
   - The upper box recommends methods to care plants depending on the city location. If you input the city name, you can see the weather at the center and the method with blue color below.
     It is implemented by using OpenWeather API.
 
