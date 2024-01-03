@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,11 +23,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.Toast;
+import android.Manifest;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -54,6 +57,35 @@ public class TwoFragment extends Fragment{
     // Permission
     private PermissionSupport permission;
 
+
+    // openCamera method
+    private void openCamera() {
+        try {
+            String dirPath = getContext().getExternalFilesDir(null).getPath();
+            File dir = new File(dirPath);
+            if (!dir.exists()) {
+                Log.d("MAKE DIR", dir.mkdirs() + "");
+            }
+
+            filePath = File.createTempFile("IMG", "jpg", dir);
+            Uri photoUri = FileProvider.getUriForFile(getContext(), "com.example.taptest.provider", filePath);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // openGallery method
+    private void openGallery() {
+        Intent newIntent = new Intent();
+        newIntent.setType("image/*");
+        newIntent.setAction(Intent.ACTION_GET_CONTENT);
+        newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(newIntent, "Select Picture"), GALLERY_REQUEST_CODE);
+    }
+
     private void permissionCheck(){
         if(Build.VERSION.SDK_INT >= 23){
             // Use getActivity() instead of this
@@ -68,10 +100,14 @@ public class TwoFragment extends Fragment{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // Use the permission object to handle the result
-        if (!permission.permissionResult(requestCode, permissions, grantResults)){
-            // Handle the case where permission is not granted
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            // Existing camera permission handling
+        } else if (requestCode == GALLERY_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                // Permission was denied. You can show a toast or alert dialog here.
+            }
         }
     }
 
@@ -91,25 +127,14 @@ public class TwoFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                permissionCheck();
-                try{
-                    String dirPath = v.getContext().getExternalFilesDir(null).getPath();
-                    File dir = new File(dirPath);
-                    if(!dir.exists()){
-                        Log.d("MAKE DIR", dir.mkdirs() + "");
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+                    } else {
+                        openCamera();
                     }
-
-                    filePath = File.createTempFile("IMG", "jpg", dir);
-                    if(!filePath.exists()){
-                        filePath.createNewFile();
-                    }
-                    // com.example.taptest.provider 역할 의미???
-                    Uri photoUri = FileProvider.getUriForFile(v.getContext(), "com.example.taptest.provider", filePath);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(intent, CAMERA_REQUEST_CODE);
-                } catch (Exception e){
-                    e.printStackTrace();
+                } else {
+                    openCamera();
                 }
             }
         });
@@ -119,12 +144,15 @@ public class TwoFragment extends Fragment{
         gal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                permissionCheck();
-                Intent newIntent = new Intent();
-                newIntent.setType("image/*");
-                newIntent.setAction(Intent.ACTION_GET_CONTENT);
-                newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(Intent.createChooser(newIntent, "Select Picture"), GALLERY_REQUEST_CODE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_REQUEST_CODE);
+                    } else {
+                        openGallery();
+                    }
+                } else {
+                    openGallery();
+                }
             }
         });
 
