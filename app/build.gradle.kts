@@ -48,6 +48,11 @@ dependencies {
     // 기상
     implementation("com.android.volley:volley:1.2.1")
 
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.1.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.1.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:3.4.1")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
