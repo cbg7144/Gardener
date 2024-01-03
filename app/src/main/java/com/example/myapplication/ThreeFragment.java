@@ -173,7 +173,7 @@ public class ThreeFragment extends Fragment {
                     treatMethod.setText(output);
 
                     ArrayList<WeatherItem> newWeatherList = new ArrayList<>(weatherList);
-                    newWeatherList.add(new WeatherItem("Today", main_weather, (int) Math.round(temp) + "°C", R.drawable.weather_cloud));
+                    newWeatherList.add(new WeatherItem("Today", main_weather, (int) Math.round(temp) + "°C", R.drawable.weather_rainy));
                     newWeatherList.add(new WeatherItem("Tomorrow", "Sunny", "4°C", R.drawable.weather_sunny));
                     newWeatherList.add(new WeatherItem("Friday", "Rainy", "10°C", R.drawable.weather_rainy));
                     newWeatherList.add(new WeatherItem("Saturday", "Snowy", "5°C", R.drawable.weather_snowy));
