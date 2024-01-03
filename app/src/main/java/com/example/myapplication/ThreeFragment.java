@@ -31,14 +31,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ThreeFragment extends Fragment {
     public RecyclerView recyclerView;
+    public RecyclerView weatherRecyclerView;
     public TodoAdapter adapter;
+    public WeatherAdapter weatherAdapter;
     private ArrayList<TodoItem> todoList = new ArrayList<>();
+    private ArrayList<WeatherItem> weatherList = new ArrayList<>();
     private static final String TODO_PREFS = "todoPrefs";
 
     // open weather 설정
@@ -47,7 +51,6 @@ public class ThreeFragment extends Fragment {
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String appid = "c52827cc3e964279095d372436481fe2";
     DecimalFormat df = new DecimalFormat("#.##");
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,12 +62,21 @@ public class ThreeFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         adapter.setTodoList(todoList);
+
         loadTodoFromSharedPreferences();
+
+        weatherRecyclerView = view.findViewById(R.id.weatherRecyclerView);
+        weatherAdapter = new WeatherAdapter(weatherList);
+
+        weatherRecyclerView.setAdapter(weatherAdapter);
+        weatherRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+
+        weatherAdapter.setWeatherList(weatherList);
 
         EditText addTodo = view.findViewById(R.id.addTodo);
         Button insertButton = view.findViewById(R.id.insertBtn);
+        Button weatherButton = view.findViewById(R.id.weather_click);
 
         // 기상 맞는지 확인 요망 ///
         etCity = view.findViewById(R.id.etCity);
@@ -72,6 +84,12 @@ public class ThreeFragment extends Fragment {
         treatMethod = view.findViewById(R.id.treatMethod);
         Button getButton = view.findViewById(R.id.btnGet);
 
+        weatherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weatherAdapter.notifyDataSetChanged();
+            }
+        });
         // weather 버튼
         getButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +120,7 @@ public class ThreeFragment extends Fragment {
         } else {
             tempUrl = url + "?q=" + city + "," + "&appid=" + appid;
         }
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -152,6 +171,19 @@ public class ThreeFragment extends Fragment {
 
                     currWeather.setText("Today weather is " + main_weather + weatherIcon);
                     treatMethod.setText(output);
+
+                    ArrayList<WeatherItem> newWeatherList = new ArrayList<>(weatherList);
+                    newWeatherList.add(new WeatherItem("Today", main_weather, (int) Math.round(temp) + "°C", R.drawable.weather_cloud));
+                    newWeatherList.add(new WeatherItem("Tomorrow", "Sunny", "4°C", R.drawable.weather_sunny));
+                    newWeatherList.add(new WeatherItem("Friday", "Rainy", "10°C", R.drawable.weather_rainy));
+                    newWeatherList.add(new WeatherItem("Saturday", "Snowy", "5°C", R.drawable.weather_snowy));
+                    newWeatherList.add(new WeatherItem("Sunday", "Thunderstorm", "1°C", R.drawable.weather_thunderstorm));
+                    newWeatherList.add(new WeatherItem("Monday", "Sunny", "3°C", R.drawable.weather_sunny));
+                    newWeatherList.add(new WeatherItem("Tuesday", "Cloudy", "4°C", R.drawable.weather_cloud));
+
+                    newWeatherList.addAll(weatherList);
+                    weatherAdapter.setWeatherList(newWeatherList);
+                    weatherAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
