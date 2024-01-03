@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,8 +42,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class TwoFragment extends Fragment{
     View v;
@@ -53,10 +58,6 @@ public class TwoFragment extends Fragment{
     File filePath;
     private final int CAMERA_REQUEST_CODE = 40;
     private final int GALLERY_REQUEST_CODE = 50;
-
-    // Permission
-    private PermissionSupport permission;
-
 
     // openCamera method
     private void openCamera() {
@@ -86,16 +87,35 @@ public class TwoFragment extends Fragment{
         startActivityForResult(Intent.createChooser(newIntent, "Select Picture"), GALLERY_REQUEST_CODE);
     }
 
-    private void permissionCheck(){
-        if(Build.VERSION.SDK_INT >= 23){
-            // Use getActivity() instead of this
-            permission = new PermissionSupport(getActivity(), getActivity());
+    private boolean saveImageToExternalStorage(String imgName, Bitmap bmp){
+        Uri ImageCollection = null;
+        ContentResolver resolver = getActivity().getContentResolver();
 
-            if(!permission.checkPermission()){
-                permission.requestPermission();
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            ImageCollection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+        }else{
+            ImageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imgName + ".jpg");
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        Uri imageUri = resolver.insert(ImageCollection, contentValues);
+
+        try {
+            OutputStream outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            Objects.requireNonNull(outputStream);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -194,6 +214,8 @@ public class TwoFragment extends Fragment{
                 Gallery gallery = new Gallery(bmRotated);
                 lstGallery.add(gallery);
                 adapter.notifyDataSetChanged();
+
+                saveImageToExternalStorage(UUID.randomUUID().toString(), bmRotated);
 
             }
         }else if(requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
