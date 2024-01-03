@@ -2,13 +2,25 @@
 > ### Contributor: Seohee Yoon, Baekgyun Cho
 > 2023.12.28 ~ 2024.01.03 <br />
 *for 2023 Winter Madcamp Week01 Project* <br/>
+
+<p>
+<img alt="Java" src="https://img.shields.io/badge/Java-007396.svg?&style=for-the badge&logo=Java&logoColor=white"/> 
+<img alt="Android" src="https://img.shields.io/badge/Android-3DDC84.svg?&style=for-the badge&logo=Android&logoColor=white"/> 
+</p>
 <img src="https://github.com/cbg7144/Gardener/assets/102652293/b339a5c8-4d0b-40c4-8284-38bc668831e2" width="300px" height="300px"/>
 
 ## 📂 About Projects
+**A plant management app with multiple functions - contacts, gallery, and where you can manage plants according to the weather!**
+
+In a first project of KAIST MadCamp, we developed an Android app with three tabs. The first tab uses JSON format to build random contact data. The second tab builds my own gallery. The third tab is a free topic, and we organized a screen to create my own to-do list related to plants according to the concept.
+
 ### 1️⃣ Splash
- - Splash screen using avd file. You can see pop out animated logo when you launch the app.
+- Splash screen using avd file. You can see pop out animated logo when you launch the app.
    
 ### 2️⃣ Tab1 : Contact
+- You can add new contact by using bottom floating button and add new contact by typing string of name and phone number. Modified contacts are saved after reboot using shared preferences. You can search contact by name and phone number.
+- You can call directly from contact and send a message, by touching call and message image located in right side of each ite getting call permission, ACTION_CALL
+- You can remove contact by sliding each contact left
 
 ### 3️⃣ Tab2 : Gallery
  - Gallery tap initially contains 20 images of flowers and gardens. Grid view with 3 coulmns is implemented to display images.
@@ -26,26 +38,25 @@
 ### 4️⃣ Tab3 : Todo & Check weather
   - The upper box recommends methods to care plants depending on the city location. If you input the city name, you can see the weather at the center and the method with blue color below.
     It is implemented by using OpenWeather API.
+
     
-
-
 ## 🧑‍🤝‍🧑 Contributor
-  <table border="" cellspacing="0" cellpadding="0" width="100%">
-  <tr width="100%">
+<table border="" cellspacing="0" cellpadding="0" width="100%">
+ <tr width="100%">
   <td align="center">Seohee Yoon</a></td>
   <td align="center">Baekgyun Cho</a></td>
-  </tr>
-  <tr>
+ </tr>
+ <tr>
   <td  align="center"><a href="mailto:appleid21@sookmyung.ac.kr"><img src="https://github.com/cbg7144/Gardener/assets/102652293/4607f870-f17f-4b55-993f-e7d4700131e0" border="0" width="90px"></a></td>
   <td  align="center"><a href="mailto:cbg7144@kaist.ac.kr"><img src="https://github.com/cbg7144/Gardener/assets/102652293/cbc19b9a-4fea-47c1-9640-fc007bf10bc0" border="0" width="90px"></a></td>
-</tr>
-  <tr width="100%">
+ </tr>
+ <tr width="100%">
   <td  align="center"><a href="mailto:appleid21@sookmyung.ac.kr">appleid21@sookmyung.ac.kr</a></td>
   <td  align="center"><a href="mailto:cbg7144@kaist.ac.kr">cbg7144@kaist.ac.kr</a></td>
-     </tr>
-      <tr width="100%">
-       <td  align="center"><p>Tab1</p><p>Tab3</p><p>Connection</p></td>
-       <td  align="center"><p>Tab2</p><p>API</p><p>Splash</p></td>
+ </tr>
+ <tr width="100%">
+       <td  align="center"><p>Tab1 : Contact</p><p>Tab3 : To-do</p><p>Tab to tab connection</p></td>
+       <td  align="center"><p>Tab2 : Gallery</p><p>Open Weather API</p><p>Splash</p></td>
      </tr>
   </table>
 
