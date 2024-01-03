@@ -8,26 +8,36 @@
     android:gravity="center_horizontal"
     >
 
-    <EditText
-        android:id="@+id/addName"
-        android:hint="Enter the name"
-        android:textStyle="bold"
-        android:textColor="@color/dark_green"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:paddingLeft="10dp"
-        android:background="@drawable/search_box"
-        android:selectAllOnFocus="true"
-        android:layout_marginBottom="10dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_name"
+        android:hint="Name">
 
-    <EditText
-        android:id="@+id/addNumber"
-        android:hint="Enter the phone number"
-        android:textStyle="bold"
-        android:textColor="@color/dark_green"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:paddingLeft="10dp"
-        android:selectAllOnFocus="true"
-        android:background="@drawable/search_box"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addName"
+            android:textStyle="bold"
+            android:textColor="@color/dark_green"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:paddingLeft="10dp"
+            android:selectAllOnFocus="true"
+            android:layout_marginBottom="10dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_contact"
+        android:hint="Phone Number">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addNumber"
+            android:textStyle="bold"
+            android:textColor="@color/dark_green"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:paddingLeft="10dp"
+            android:selectAllOnFocus="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
