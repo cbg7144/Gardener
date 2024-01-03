@@ -70,5 +70,3 @@ In a first project of KAIST MadCamp, we developed an Android app with three tabs
        <td  align="center"><p>Tab2 : Gallery</p><p>Open Weather API</p><p>Splash</p></td>
      </tr>
   </table>
-
-## ⬇️ Installation 
