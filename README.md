@@ -58,7 +58,7 @@ In a first project of KAIST MadCamp, we developed an Android app with three tabs
  </tr>
  <tr>
   <td  align="center"><a href="mailto:appleid21@sookmyung.ac.kr"><img src="https://github.com/cbg7144/Gardener/assets/102652293/4607f870-f17f-4b55-993f-e7d4700131e0" border="0" width="90px"></a></td>
-  <td  align="center"><a href="mailto:cbg7144@kaist.ac.kr"><img src="https://github.com/cbg7144/Gardener/assets/102652293/cbc19b9a-4fea-47c1-9640-fc007bf10bc0" border="0" width="90px"></a></td>
+  <td  align="center"><a href="mailto:cbg7144@kaist.ac.kr"><img src="https://github.com/cbg7144/Gardener/assets/102652293/5296a35e-efa3-429d-b16b-22a2cfa1ec84" border="0" width="90px"></a></td>
  </tr>
  <tr width="100%">
   <td  align="center"><a href="mailto:appleid21@sookmyung.ac.kr">appleid21@sookmyung.ac.kr</a></td>
