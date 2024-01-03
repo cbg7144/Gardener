@@ -146,8 +146,8 @@ public class ThreeFragment extends Fragment {
                         output = "Bring plants indoors for protection.";
                         weatherIcon = "⛈️";
                     } else {
-                        output = "Well Well Well Well";
-                        weatherIcon = "\uD83D\uDE04";
+                        output = "Use artificial light and reduce watering.";
+                        weatherIcon = "☁️";
                     }
 
                     currWeather.setText("Today weather is " + main_weather + weatherIcon);

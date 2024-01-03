@@ -166,6 +166,7 @@ public class TwoFragment extends Fragment{
                 Gallery gallery = new Gallery(bmRotated);
                 lstGallery.add(gallery);
                 adapter.notifyDataSetChanged();
+
             }
         }else if(requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             try{
