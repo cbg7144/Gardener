@@ -6,12 +6,28 @@
 
 ## 📂 About Projects
 ### 1️⃣ Splash
-
+ - Splash screen using avd file. You can see pop out animated logo when you launch the app.
+   
 ### 2️⃣ Tab1 : Contact
 
 ### 3️⃣ Tab2 : Gallery
+ - Gallery tap initially contains 20 images of flowers and gardens. Grid view with 3 coulmns is implemented to display images.
+   When you click an image, it opens up a horizontally oriented recycler view that displays the raw image files.
+   You can easliy navigate to oher images by scrolling, and the scrolling appears to be continuous in both left and right directions. <br/>
+
+ - There are two buttons at the bottom right. If you tap the buttons, access permission is requested. After the permission approved, you can use these buttons.
+   1. Gallery Button
+    Allow to add multiple images to gallery loacted in external storage.  
+   2. Camera Button
+    Allow to take picture from camera and the image is directly added in gallery.
+
+  - If you click on an image for a long time, you can choose whether to erase the picture.
 
 ### 4️⃣ Tab3 : Todo & Check weather
+  - The upper box recommends methods to care plants depending on the city location. If you input the city name, you can see the weather at the center and the method with blue color below.
+    It is implemented by using OpenWeather API.
+    
+
 
 ## 🧑‍🤝‍🧑 Contributor
   <table border="" cellspacing="0" cellpadding="0" width="100%">
