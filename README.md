@@ -6,6 +6,7 @@
 
 ## 📂 About Projects
 ### 1️⃣ Splash
+https://github.com/cbg7144/Gardener/assets/128574611/f910000f-a2b9-4425-821e-5dda7ef771a8
  - Splash screen using avd file. You can see pop out animated logo when you launch the app.
    
 ### 2️⃣ Tab1 : Contact
